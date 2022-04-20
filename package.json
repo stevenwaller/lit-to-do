@@ -1,6 +1,6 @@
 {
   "name": "lit-to-do",
-  "description": "Webcomponent lit-to-do following open-wc recommendations",
+  "description": "Basic To Do app build with lit",
   "license": "MIT",
   "author": "lit-to-do",
   "version": "0.0.0",
@@ -61,13 +61,7 @@
         "error"
       ],
       "import/no-unresolved": "off",
-      "import/extensions": [
-        "error",
-        "always",
-        {
-          "ignorePackages": true
-        }
-      ]
+      "import/extensions": "off"
     }
   },
   "prettier": {
