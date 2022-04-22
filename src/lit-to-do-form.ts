@@ -6,14 +6,14 @@ export class LitToDoForm extends LitElement {
   static styles = css``;
 
   @query('input')
-  private _inputRef: HTMLInputElement | undefined;
+  private _inputRef!: HTMLInputElement;
 
   handleSubmit(event: Event) {
     event.preventDefault();
 
-    if (this._inputRef && this._inputRef.value) {
+    if (this._inputRef.value) {
       const newEvent = new CustomEvent('submit', {
-        detail: this._inputRef.value,
+        detail: { value: this._inputRef.value },
         bubbles: true,
         composed: true,
       });
@@ -25,9 +25,7 @@ export class LitToDoForm extends LitElement {
   }
 
   handleClear() {
-    if (this._inputRef) {
-      this._inputRef.value = '';
-    }
+    this._inputRef.value = '';
   }
 
   render() {
