@@ -37,7 +37,7 @@ export class LitToDoForm extends LitElement {
           placeholder="Enter something to do"
           aria-label="Add new to do"
         />
-        <button type="button" @click="${this.handleClear}">Clear</button>
+        <button type="button" @click=${this.handleClear}>Clear</button>
         <button type="submit">Add</button>
       </form>
     `;

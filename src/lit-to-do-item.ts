@@ -48,10 +48,10 @@ export class LitToDoItem extends LitElement {
         <input
           type="checkbox"
           aria-label="Mark item as completed"
-          .checked="${this.completed}"
-          @change="${this.handleChange}"
+          .checked=${this.completed}
+          @change=${this.handleChange}
         />
-        ${this.value} <button @click="${this.handleDelete}">Delete</button>
+        ${this.value} <button @click=${this.handleDelete}>Delete</button>
       </li>
     `;
   }

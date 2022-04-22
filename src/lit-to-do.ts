@@ -81,11 +81,11 @@ export class LitToDo extends LitElement {
       item => item.id,
       item => html`
         <lit-to-do-item
-          id="${item.id}"
-          value="${item.value}"
-          ?completed="${item.completed}"
-          @change="${this.handleItemChange}"
-          @delete="${this.handleItemDelete}"
+          id=${item.id}
+          value=${item.value}
+          ?completed=${item.completed}
+          @change=${this.handleItemChange}
+          @delete=${this.handleItemDelete}
         ></lit-to-do-item>
       `
     );
@@ -95,7 +95,7 @@ export class LitToDo extends LitElement {
     return html`
       <section>
         <h1>${this.title}</h1>
-        <lit-to-do-form @submit="${this.handleFormSubmit}"></lit-to-do-form>
+        <lit-to-do-form @submit=${this.handleFormSubmit}></lit-to-do-form>
         <ul>
           ${this.renderItems(this.items)}
         </ul>
