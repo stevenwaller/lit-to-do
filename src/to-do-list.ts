@@ -1,22 +1,24 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
-import './lit-to-do-form';
-import './lit-to-do-item';
+import './to-do-form';
+import './to-do-item';
 
 const uniqueId = () => Math.floor(Math.random() * Date.now()).toString();
 
-interface IItem {
+interface IToDoItem {
   id: string;
   value: string;
   completed: boolean;
 }
 
-@customElement('lit-to-do')
-export class LitToDo extends LitElement {
+@customElement('to-do-list')
+export class ToDoList extends LitElement {
+  static styles = css``;
+
   @property({ type: String }) title = 'To Do';
 
-  @property({ type: Array }) items: IItem[] = [
+  @property({ type: Array }) items: IToDoItem[] = [
     {
       id: uniqueId(),
       value: 'Example to do',
@@ -24,9 +26,7 @@ export class LitToDo extends LitElement {
     },
   ];
 
-  @property({ type: Array }) completedItems: IItem[] = [];
-
-  static styles = css``;
+  @property({ type: Array }) completedItems: IToDoItem[] = [];
 
   handleFormSubmit(event: CustomEvent) {
     this.items = [
@@ -50,7 +50,6 @@ export class LitToDo extends LitElement {
   }
 
   handleItemChange(event: CustomEvent) {
-    console.log(event.detail);
     if (event.detail.completed) {
       // find the item and remove it
       this.items = this.items.filter(item => item.id !== event.detail.id);
@@ -66,27 +65,20 @@ export class LitToDo extends LitElement {
       // add item to completed
       this.items = [...this.items, event.detail];
     }
-    // this.items = this.items.map(item => {
-    //   if (item.id === event.detail.id) {
-    //     return { ...item, completed: event.detail.completed };
-    //   }
-
-    //   return item;
-    // });
   }
 
-  renderItems(items: IItem[]) {
+  renderItems(items: IToDoItem[]) {
     return repeat(
       items,
       item => item.id,
       item => html`
-        <lit-to-do-item
+        <to-do-item
           id=${item.id}
           value=${item.value}
           ?completed=${item.completed}
           @change=${this.handleItemChange}
           @delete=${this.handleItemDelete}
-        ></lit-to-do-item>
+        ></to-do-item>
       `
     );
   }
@@ -95,7 +87,7 @@ export class LitToDo extends LitElement {
     return html`
       <section>
         <h1>${this.title}</h1>
-        <lit-to-do-form @submit=${this.handleFormSubmit}></lit-to-do-form>
+        <to-do-form @submit=${this.handleFormSubmit}></to-do-form>
         <ul>
           ${this.renderItems(this.items)}
         </ul>

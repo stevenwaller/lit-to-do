@@ -1,13 +1,13 @@
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 
-import { LitToDo } from '../src/lit-to-do.js';
+import { ToDoList } from '../src/to-do-list.js';
 import '../src/lit-to-do/lit-to-do';
 
-describe('LitToDo', () => {
-  let element: LitToDo;
+describe('ToDoList', () => {
+  let element: ToDoList;
   beforeEach(async () => {
-    element = await fixture(html`<lit-to-do></lit-to-do>`);
+    element = await fixture(html`<to-do-list></to-do-list>`);
   });
 
   it('renders a h1', () => {

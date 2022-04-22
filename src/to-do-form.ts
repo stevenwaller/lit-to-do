@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 
-@customElement('lit-to-do-form')
-export class LitToDoForm extends LitElement {
+@customElement('to-do-form')
+export class ToDoForm extends LitElement {
   static styles = css``;
 
   @query('input')

@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
-@customElement('lit-to-do-item')
-export class LitToDoItem extends LitElement {
+@customElement('to-do-item')
+export class ToDoItem extends LitElement {
   static styles = css``;
 
   @property({ type: String }) id = '';
