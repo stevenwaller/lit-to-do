@@ -30,12 +30,12 @@ export class ToDoList extends LitElement {
 
   handleFormSubmit(event: CustomEvent) {
     this.items = [
-      ...this.items,
       {
         id: uniqueId(),
         value: event.detail.value,
         completed: false,
       },
+      ...this.items,
     ];
   }
 
@@ -51,18 +51,14 @@ export class ToDoList extends LitElement {
 
   handleItemChange(event: CustomEvent) {
     if (event.detail.completed) {
-      // find the item and remove it
       this.items = this.items.filter(item => item.id !== event.detail.id);
 
-      // add item to completed
       this.completedItems = [event.detail, ...this.completedItems];
     } else {
-      // find the item and remove it
       this.completedItems = this.completedItems.filter(
         item => item.id !== event.detail.id
       );
 
-      // add item to completed
       this.items = [...this.items, event.detail];
     }
   }
