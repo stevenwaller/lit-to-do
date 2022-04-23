@@ -28,7 +28,7 @@ export class ToDoList extends LitElement {
 
   @property({ type: Array }) completedItems: IToDoItem[] = [];
 
-  handleFormSubmit(event: CustomEvent) {
+  handleAddItem(event: CustomEvent) {
     this.items = [
       {
         id: uniqueId(),
@@ -49,7 +49,7 @@ export class ToDoList extends LitElement {
     }
   }
 
-  handleItemChange(event: CustomEvent) {
+  handleItemComplete(event: CustomEvent) {
     if (event.detail.completed) {
       this.items = this.items.filter(item => item.id !== event.detail.id);
 
@@ -63,6 +63,27 @@ export class ToDoList extends LitElement {
     }
   }
 
+  handleItemEdit(event: CustomEvent) {
+    function getItemsWithEdit(items: IToDoItem[], itemToEdit: IToDoItem) {
+      return items.map(item => {
+        if (item.id === itemToEdit.id) {
+          return {
+            ...item,
+            value: itemToEdit.value,
+          };
+        }
+
+        return item;
+      });
+    }
+
+    if (event.detail.completed) {
+      this.completedItems = getItemsWithEdit(this.completedItems, event.detail);
+    } else {
+      this.items = getItemsWithEdit(this.items, event.detail);
+    }
+  }
+
   renderItems(items: IToDoItem[]) {
     return repeat(
       items,
@@ -70,10 +91,11 @@ export class ToDoList extends LitElement {
       item => html`
         <to-do-item
           id=${item.id}
-          value=${item.value}
+          .value=${item.value}
           ?completed=${item.completed}
-          @change=${this.handleItemChange}
-          @delete=${this.handleItemDelete}
+          @on-complete=${this.handleItemComplete}
+          @on-edit=${this.handleItemEdit}
+          @on-delete=${this.handleItemDelete}
         ></to-do-item>
       `
     );
@@ -83,7 +105,7 @@ export class ToDoList extends LitElement {
     return html`
       <section>
         <h1>${this.title}</h1>
-        <to-do-form @submit=${this.handleFormSubmit}></to-do-form>
+        <to-do-form @on-submit=${this.handleAddItem}></to-do-form>
         <ul>
           ${this.renderItems(this.items)}
         </ul>
