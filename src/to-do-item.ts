@@ -29,7 +29,6 @@ export class ToDoItem extends LitElement {
   }
 
   handleCheckboxChange() {
-    console.log('handle checked');
     const newEvent = new CustomEvent('on-complete', {
       detail: { ...this._toDoItem },
       bubbles: true,

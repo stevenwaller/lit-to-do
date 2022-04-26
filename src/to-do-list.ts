@@ -18,15 +18,37 @@ export class ToDoList extends LitElement {
 
   @property({ type: String }) title = 'To Do';
 
-  @property({ type: Array }) items: IToDoItem[] = [
-    {
-      id: uniqueId(),
-      value: 'Example to do',
-      completed: false,
-    },
-  ];
+  @property({ type: Array }) items: IToDoItem[] = [];
 
   @property({ type: Array }) completedItems: IToDoItem[] = [];
+
+  connectedCallback() {
+    const storedItems = localStorage.getItem('items');
+    const storedCompletedItems = localStorage.getItem('completed-items');
+
+    if (storedItems) {
+      this.items = JSON.parse(storedItems);
+    }
+
+    if (storedCompletedItems) {
+      this.completedItems = JSON.parse(storedCompletedItems);
+    }
+
+    super.connectedCallback();
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.get('items')) {
+      localStorage.setItem('items', JSON.stringify(this.items));
+    }
+
+    if (changedProperties.get('completedItems')) {
+      localStorage.setItem(
+        'completed-items',
+        JSON.stringify(this.completedItems)
+      );
+    }
+  }
 
   handleAddItem(event: CustomEvent) {
     this.items = [

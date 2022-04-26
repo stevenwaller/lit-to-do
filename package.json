@@ -61,7 +61,8 @@
         "error"
       ],
       "import/no-unresolved": "off",
-      "import/extensions": "off"
+      "import/extensions": "off",
+      "wc/guard-super-call": "off"
     }
   },
   "prettier": {
