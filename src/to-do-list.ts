@@ -14,9 +14,26 @@ interface IToDoItem {
 
 @customElement('to-do-list')
 export class ToDoList extends LitElement {
-  static styles = css``;
+  static styles = css`
+    .container {
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 20px 20px;
+      box-shadow: 0px 5px 48px 0px rgba(0, 0, 0, 0.35);
+    }
 
-  @property({ type: String }) title = 'To Do';
+    .title {
+      margin: 0 0 15px 0;
+    }
+
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  `;
+
+  @property({ type: String }) title = 'To Do List';
 
   @property({ type: Array }) items: IToDoItem[] = [];
 
@@ -125,14 +142,14 @@ export class ToDoList extends LitElement {
 
   render() {
     return html`
-      <section>
-        <h1>${this.title}</h1>
+      <section class="container">
+        <h1 class="title">${this.title}</h1>
         <to-do-form @on-submit=${this.handleAddItem}></to-do-form>
-        <ul>
+        <ul class="list">
           ${this.renderItems(this.items)}
         </ul>
         <hr />
-        <ul>
+        <ul class="list">
           ${this.renderItems(this.completedItems)}
         </ul>
       </section>
