@@ -22,6 +22,10 @@ export class ToDoList extends LitElement {
       box-shadow: 0px 5px 48px 0px rgba(0, 0, 0, 0.35);
     }
 
+    .form {
+      margin-bottom: 15px;
+    }
+
     .title {
       margin: 0 0 15px 0;
     }
@@ -30,6 +34,7 @@ export class ToDoList extends LitElement {
       margin: 0;
       padding: 0;
       list-style: none;
+      border-top: 1px solid #e5e5e5;
     }
   `;
 
@@ -144,7 +149,7 @@ export class ToDoList extends LitElement {
     return html`
       <section class="container">
         <h1 class="title">${this.title}</h1>
-        <to-do-form @on-submit=${this.handleAddItem}></to-do-form>
+        <to-do-form class="form" @on-submit=${this.handleAddItem}></to-do-form>
         <ul class="list">
           ${this.renderItems(this.items)}
         </ul>

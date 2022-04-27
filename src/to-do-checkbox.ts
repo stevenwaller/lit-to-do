@@ -19,7 +19,7 @@ export class ToDoCheckbox extends LitElement {
     }
 
     .checkbox:checked {
-      background-color: rebeccapurple;
+      background-color: #00c1fc;
     }
   `;
 
