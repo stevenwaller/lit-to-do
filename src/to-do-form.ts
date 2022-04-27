@@ -12,8 +12,8 @@ export class ToDoForm extends LitElement {
     }
 
     *,
-    *:before,
-    *:after {
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
@@ -22,18 +22,14 @@ export class ToDoForm extends LitElement {
       align-items: stretch;
     }
 
-    .input-wrapper {
-      position: relative;
-      flex: 1 0 auto;
-    }
-
     .input {
+      flex: 1 0 auto;
       -webkit-appearance: none;
       appearance: none;
-      width: 100%;
       border: 2px solid black;
-      margin-right: 10px;
       border-radius: 0;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
       height: 40px;
       font-size: 16px;
       font-weight: bold;
@@ -43,22 +39,6 @@ export class ToDoForm extends LitElement {
     .input:focus {
       outline: none;
       border-color: #00c1fc;
-    }
-
-    .clear-btn {
-      -webkit-appearance: none;
-      appearance: none;
-      position: absolute;
-      top: 0;
-      right: 0;
-      border: none;
-      background: none;
-      padding: 0;
-      display: none;
-    }
-
-    .clear-icon {
-      width: 10px;
     }
 
     .actions {
@@ -75,9 +55,8 @@ export class ToDoForm extends LitElement {
       text-transform: uppercase;
       font-weight: bold;
       font-size: 14px;
-    }
-
-    .action-btn:first-child {
+      background-color: black;
+      color: white;
     }
 
     .action-btn:focus {
@@ -86,28 +65,33 @@ export class ToDoForm extends LitElement {
       background-color: #00c1fc;
     }
 
+    .action-btn svg {
+      fill: white;
+    }
+
     .action-btn--secondary {
       background-color: white;
       color: black;
       border-left: none;
-      /* border-right-color: white; */
     }
 
     .action-btn--secondary svg {
       fill: black;
     }
 
-    .action-btn--primary {
-      background-color: black;
-      color: white;
-    }
-
-    .action-btn--primary svg {
-      fill: white;
+    .action-btn--icon {
+      width: 40px;
+      padding: 0;
+      line-height: 0;
     }
 
     .action-btn--text {
       padding: 10px 10px;
+    }
+
+    .action-btn:last-child {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
     }
   `;
 
@@ -138,10 +122,6 @@ export class ToDoForm extends LitElement {
     }
   }
 
-  handleClear() {
-    this._inputElement.value = '';
-  }
-
   handleCancel() {
     this._inputElement.value = '';
 
@@ -154,7 +134,7 @@ export class ToDoForm extends LitElement {
     if (this.editMode) {
       return html`
         <button
-          class="action-btn action-btn--secondary"
+          class="action-btn action-btn--icon action-btn--secondary"
           type="button"
           aria-label="Cancel"
           title="Cancel"
@@ -163,7 +143,7 @@ export class ToDoForm extends LitElement {
           ${icons.closeThin}
         </button>
         <button
-          class="action-btn action-btn--primary"
+          class="action-btn action-btn--icon"
           type="submit"
           aria-label="Save"
           title="Save"
@@ -174,46 +154,21 @@ export class ToDoForm extends LitElement {
     }
 
     return html`
-      <button
-        class="action-btn action-btn--primary action-btn--text"
-        type="submit"
-      >
-        Save
-      </button>
+      <button class="action-btn action-btn--text" type="submit">Add</button>
     `;
   }
 
   render() {
     return html`
       <form class="form" @submit="${this.handleSubmit}">
-        <div class="input-wrapper">
-          <input
-            id="input"
-            class="input"
-            type="text"
-            .value=${this.value}
-            placeholder="Enter something to do"
-            aria-label=${this.editMode ? 'Edit to do' : 'Add new to do'}
-          />
-          <button
-            class="clear-btn"
-            type="button"
-            @click=${this.handleClear}
-            aria-label="Clear input value"
-          >
-            <svg class="clear-icon" viewBox="0 0 24 24">
-              <g fill="none" fill-rule="evenodd">
-                <path d="M0 0h24v24H0z" />
-                <path
-                  fill="#000"
-                  fill-rule="nonzero"
-                  d="M21 5.762 18.238 3 12 9.238 5.762 3 3 5.762 9.238 12 3 18.238 5.762 21 12 14.762 18.238 21 21 18.238 14.762 12z"
-                />
-                <path d="M0 0h24v24H0z" />
-              </g>
-            </svg>
-          </button>
-        </div>
+        <input
+          id="input"
+          class="input"
+          type="text"
+          .value=${this.value}
+          placeholder="Enter something to do"
+          aria-label=${this.editMode ? 'Edit to do' : 'Add new to do'}
+        />
         <div class="actions">${this.renderButtons()}</div>
       </form>
     `;

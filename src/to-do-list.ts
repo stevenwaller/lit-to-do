@@ -129,20 +129,28 @@ export class ToDoList extends LitElement {
   }
 
   renderItems(items: IToDoItem[]) {
-    return repeat(
-      items,
-      item => item.id,
-      item => html`
-        <to-do-item
-          id=${item.id}
-          .value=${item.value}
-          ?completed=${item.completed}
-          @on-complete=${this.handleItemComplete}
-          @on-edit=${this.handleItemEdit}
-          @on-delete=${this.handleItemDelete}
-        ></to-do-item>
-      `
-    );
+    if (items.length <= 0) {
+      return null;
+    }
+
+    return html`
+      <ul class="list">
+        ${repeat(
+          items,
+          item => item.id,
+          item => html`
+            <to-do-item
+              id=${item.id}
+              .value=${item.value}
+              ?completed=${item.completed}
+              @on-complete=${this.handleItemComplete}
+              @on-edit=${this.handleItemEdit}
+              @on-delete=${this.handleItemDelete}
+            ></to-do-item>
+          `
+        )}
+      </ul>
+    `;
   }
 
   render() {
@@ -150,13 +158,9 @@ export class ToDoList extends LitElement {
       <section class="container">
         <h1 class="title">${this.title}</h1>
         <to-do-form class="form" @on-submit=${this.handleAddItem}></to-do-form>
-        <ul class="list">
-          ${this.renderItems(this.items)}
-        </ul>
-        <hr />
-        <ul class="list">
-          ${this.renderItems(this.completedItems)}
-        </ul>
+        ${this.renderItems(this.items)}
+        ${this.completedItems.length > 0 ? html`<hr />` : null}
+        ${this.renderItems(this.completedItems)}
       </section>
     `;
   }
