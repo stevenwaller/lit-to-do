@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import './to-do-form';
 import './to-do-item';
@@ -44,6 +44,10 @@ export class ToDoList extends LitElement {
 
   @property({ type: Array }) completedItems: IToDoItem[] = [];
 
+  @state() touchedItemId: string | null = null;
+
+  @state() editingItemId: string | null = null;
+
   connectedCallback() {
     const storedItems = localStorage.getItem('items');
     const storedCompletedItems = localStorage.getItem('completed-items');
@@ -56,7 +60,15 @@ export class ToDoList extends LitElement {
       this.completedItems = JSON.parse(storedCompletedItems);
     }
 
+    document.addEventListener('touchstart', this.handleTouchStart);
+
     super.connectedCallback();
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('touchstart', this.handleTouchStart);
+
+    super.disconnectedCallback();
   }
 
   updated(changedProperties: Map<string, any>) {
@@ -107,8 +119,8 @@ export class ToDoList extends LitElement {
     }
   }
 
-  handleItemEdit(event: CustomEvent) {
-    function getItemsWithEdit(items: IToDoItem[], itemToEdit: IToDoItem) {
+  handleItemChange(event: CustomEvent) {
+    function getItemsWithChange(items: IToDoItem[], itemToEdit: IToDoItem) {
       return items.map(item => {
         if (item.id === itemToEdit.id) {
           return {
@@ -122,11 +134,32 @@ export class ToDoList extends LitElement {
     }
 
     if (event.detail.completed) {
-      this.completedItems = getItemsWithEdit(this.completedItems, event.detail);
+      this.completedItems = getItemsWithChange(
+        this.completedItems,
+        event.detail
+      );
     } else {
-      this.items = getItemsWithEdit(this.items, event.detail);
+      this.items = getItemsWithChange(this.items, event.detail);
     }
+
+    this.editingItemId = null;
   }
+
+  handleTouchStart = (event: Event) => {
+    const target = event.target as HTMLElement;
+
+    if (target.tagName.toLowerCase() !== 'to-do-list') {
+      if (target.tagName.toLowerCase() === 'to-do-item') {
+        if (this.touchedItemId !== target.id) {
+          this.touchedItemId = target.id;
+        }
+      } else if (this.touchedItemId !== null) {
+        this.touchedItemId = null;
+
+        this.requestUpdate();
+      }
+    }
+  };
 
   renderItems(items: IToDoItem[]) {
     if (items.length <= 0) {
@@ -143,8 +176,9 @@ export class ToDoList extends LitElement {
               id=${item.id}
               .value=${item.value}
               ?completed=${item.completed}
+              ?isTouched=${item.id === this.touchedItemId}
               @on-complete=${this.handleItemComplete}
-              @on-edit=${this.handleItemEdit}
+              @on-change=${this.handleItemChange}
               @on-delete=${this.handleItemDelete}
             ></to-do-item>
           `
@@ -155,7 +189,7 @@ export class ToDoList extends LitElement {
 
   render() {
     return html`
-      <section class="container">
+      <section class="container" @touchstart=${this.handleTouchStart}>
         <h1 class="title">${this.title}</h1>
         <to-do-form class="form" @on-submit=${this.handleAddItem}></to-do-form>
         ${this.renderItems(this.items)}

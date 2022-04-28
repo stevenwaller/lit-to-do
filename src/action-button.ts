@@ -20,7 +20,7 @@ export class ToDoCheckbox extends LitElement {
       cursor: pointer;
     }
 
-    .action-btn:after {
+    .action-btn::after {
       position: absolute;
       top: 0;
       left: 0;
@@ -30,8 +30,9 @@ export class ToDoCheckbox extends LitElement {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      transform: scale(0);
-      transition: transform ease 0.3s;
+      transform: scale(0.5);
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
     .action-btn:focus {
@@ -41,6 +42,7 @@ export class ToDoCheckbox extends LitElement {
     .action-btn:hover::after,
     .action-btn:focus::after {
       transform: scale(1);
+      opacity: 1;
     }
 
     .action-btn:hover svg,
@@ -51,6 +53,7 @@ export class ToDoCheckbox extends LitElement {
     .action-btn svg {
       position: relative;
       z-index: 2;
+      transition: fill 0.2s ease;
     }
   `;
 

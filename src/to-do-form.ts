@@ -26,30 +26,36 @@ export class ToDoForm extends LitElement {
       flex: 1 0 auto;
       -webkit-appearance: none;
       appearance: none;
+      height: 40px;
+      padding: 5px 10px;
+      margin: 0;
       border: 2px solid black;
+      border-right: 0;
       border-radius: 0;
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
-      height: 40px;
       font-size: 16px;
       font-weight: bold;
-      padding: 5px 10px;
+      transition: border 0.2s ease, background-color 0.2s ease;
     }
 
+    .input:hover,
     .input:focus {
       outline: none;
       border-color: #00c1fc;
     }
 
-    .actions {
+    .buttons {
       flex: 0 0 auto;
       font-size: 0;
     }
 
-    .action-btn {
-      height: 100%;
+    .button {
+      flex: 0 0 auto;
       -webkit-appearance: none;
       appearance: none;
+      height: 40px;
+      margin: 0;
       border: 2px solid black;
       background: none;
       text-transform: uppercase;
@@ -57,39 +63,60 @@ export class ToDoForm extends LitElement {
       font-size: 14px;
       background-color: black;
       color: white;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease,
+        color 0.2s ease;
     }
 
-    .action-btn:focus {
+    .button svg {
+      fill: white;
+      transition: fill 0.2s ease;
+    }
+
+    .button:hover,
+    .button:focus {
       outline: none;
-      border-color: #00c1fc;
       background-color: #00c1fc;
+      border-color: #00c1fc;
+      color: white;
     }
 
-    .action-btn svg {
+    .button:hover svg,
+    .button:focus svg {
       fill: white;
     }
 
-    .action-btn--secondary {
+    .button--secondary {
       background-color: white;
       color: black;
-      border-left: none;
     }
 
-    .action-btn--secondary svg {
+    .button--secondary svg {
       fill: black;
     }
 
-    .action-btn--icon {
+    .button--secondary:hover,
+    .button--secondary:focus {
+      background-color: #f1f1f1;
+      color: black;
+    }
+
+    .button--secondary:hover svg,
+    .button--secondary:focus svg {
+      fill: #00c1fc;
+    }
+
+    .button--icon {
       width: 40px;
       padding: 0;
       line-height: 0;
     }
 
-    .action-btn--text {
+    .button--text {
       padding: 10px 10px;
     }
 
-    .action-btn:last-child {
+    .button:last-child {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
     }
@@ -134,7 +161,7 @@ export class ToDoForm extends LitElement {
     if (this.editMode) {
       return html`
         <button
-          class="action-btn action-btn--icon action-btn--secondary"
+          class="button button--icon button--secondary"
           type="button"
           aria-label="Cancel"
           title="Cancel"
@@ -143,7 +170,7 @@ export class ToDoForm extends LitElement {
           ${icons.closeThin}
         </button>
         <button
-          class="action-btn action-btn--icon"
+          class="button button--icon"
           type="submit"
           aria-label="Save"
           title="Save"
@@ -154,13 +181,13 @@ export class ToDoForm extends LitElement {
     }
 
     return html`
-      <button class="action-btn action-btn--text" type="submit">Add</button>
+      <button class="button button--text" type="submit">Add</button>
     `;
   }
 
   render() {
     return html`
-      <form class="form" @submit="${this.handleSubmit}">
+      <form class="form" @submit=${this.handleSubmit}>
         <input
           id="input"
           class="input"
@@ -169,7 +196,7 @@ export class ToDoForm extends LitElement {
           placeholder="Enter something to do"
           aria-label=${this.editMode ? 'Edit to do' : 'Add new to do'}
         />
-        <div class="actions">${this.renderButtons()}</div>
+        ${this.renderButtons()}
       </form>
     `;
   }

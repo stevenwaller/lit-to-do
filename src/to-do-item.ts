@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 import './to-do-form';
 import './to-do-checkbox';
@@ -9,8 +10,8 @@ import './action-button';
 export class ToDoItem extends LitElement {
   static styles = css`
     *,
-    *:before,
-    *:after {
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
@@ -55,7 +56,7 @@ export class ToDoItem extends LitElement {
       );
     }
 
-    .item:hover .actions,
+    .item.has-visible-actions .actions,
     .item:focus-within .actions {
       display: flex;
     }
@@ -67,7 +68,13 @@ export class ToDoItem extends LitElement {
 
   @property({ type: Boolean }) completed = false;
 
+  @property({ type: Boolean }) isTouched = false;
+
+  @state() isMouseOver = false;
+
   @state() isEditing = false;
+
+  private _isTouchDevice = matchMedia('(hover: none)').matches;
 
   private get _toDoItem() {
     return {
@@ -104,7 +111,7 @@ export class ToDoItem extends LitElement {
   handleFormSubmit(event: CustomEvent) {
     this.isEditing = false;
 
-    const newEvent = new CustomEvent('on-edit', {
+    const newEvent = new CustomEvent('on-change', {
       detail: { ...this._toDoItem, value: event.detail.value },
       bubbles: true,
       composed: true,
@@ -115,6 +122,18 @@ export class ToDoItem extends LitElement {
 
   handleFormCancel() {
     this.isEditing = false;
+  }
+
+  handleMouseEnter() {
+    if (!this._isTouchDevice) {
+      this.isMouseOver = true;
+    }
+  }
+
+  handleMouseLeave() {
+    if (!this._isTouchDevice) {
+      this.isMouseOver = false;
+    }
   }
 
   render() {
@@ -132,7 +151,15 @@ export class ToDoItem extends LitElement {
     }
 
     return html`
-      <li id=${this.id} class="item">
+      <li
+        id=${this.id}
+        class="item ${classMap({
+          'has-visible-actions':
+            this.isEditing || this.isTouched || this.isMouseOver,
+        })}"
+        @mouseenter=${this.handleMouseEnter}
+        @mouseleave=${this.handleMouseLeave}
+      >
         <to-do-checkbox
           id="${this.id}-checkbox"
           .checked=${this.completed}

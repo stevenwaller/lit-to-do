@@ -14,8 +14,8 @@ export class ToDoCheckbox extends LitElement {
     }
 
     *,
-    *:before,
-    *:after {
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
@@ -26,7 +26,7 @@ export class ToDoCheckbox extends LitElement {
       line-height: 0;
     }
 
-    .checkbox {
+    .input {
       position: relative;
       width: 25px;
       height: 25px;
@@ -34,14 +34,6 @@ export class ToDoCheckbox extends LitElement {
       margin: 0;
       opacity: 0;
       cursor: pointer;
-    }
-
-    .checkbox:hover + .faux-checkbox {
-      background-color: #f1f1f1;
-    }
-
-    .checkbox:focus + .faux-checkbox {
-      border-color: #00c1fc;
     }
 
     .faux-checkbox {
@@ -57,14 +49,52 @@ export class ToDoCheckbox extends LitElement {
       border: 2px solid black;
       border-radius: 50%;
       background-color: white;
+      transition: border 0.2s ease;
     }
 
-    .check-mark {
+    .faux-checkbox::after {
+      position: absolute;
+      content: '';
+      z-index: 1;
+      background-color: #f1f1f1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .faux-checkbox svg {
+      position: relative;
+      z-index: 2;
       width: 15px;
       opacity: 0;
+      transition: fill 0.2s ease;
     }
 
-    .is-checked .check-mark {
+    .input:hover + .faux-checkbox {
+      border-color: #00c1fc;
+    }
+
+    .input:focus + .faux-checkbox {
+      border-color: #00c1fc;
+    }
+
+    .input:hover + .faux-checkbox::after,
+    .input:focus + .faux-checkbox::after {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .input:hover + .faux-checkbox svg,
+    .input:focus + .faux-checkbox svg {
+      fill: #00c1fc;
+    }
+
+    .input:checked + .faux-checkbox svg {
       opacity: 1;
     }
 
@@ -74,7 +104,7 @@ export class ToDoCheckbox extends LitElement {
       font-weight: bold;
     }
 
-    .is-checked .label {
+    .label.is-checked {
       text-decoration: line-through;
     }
   `;
@@ -101,19 +131,22 @@ export class ToDoCheckbox extends LitElement {
 
   render() {
     return html`
-      <span
-        class="checkbox-wrapper ${classMap({ 'is-checked': this.checked })}"
-      >
+      <span class="checkbox-wrapper">
         <input
           id="${this.id}"
-          class="checkbox"
+          class="input"
           type="checkbox"
           .checked=${this.checked}
           @change=${this.handleChange}
         />
         <span class="faux-checkbox"> ${icons.checkMark} </span>
       </span>
-      <label for="${this.id}" class="label"> ${this.label} </label>
+      <label
+        for="${this.id}"
+        class="label ${classMap({ 'is-checked': this.checked })}"
+      >
+        ${this.label}
+      </label>
     `;
   }
 }
