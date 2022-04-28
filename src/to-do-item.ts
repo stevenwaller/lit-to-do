@@ -70,9 +70,9 @@ export class ToDoItem extends LitElement {
 
   @property({ type: Boolean }) isTouched = false;
 
-  @state() isMouseOver = false;
+  @property({ type: Boolean }) isEditing = false;
 
-  @state() isEditing = false;
+  @state() isMouseOver = false;
 
   private _isTouchDevice = matchMedia('(hover: none)').matches;
 
@@ -105,12 +105,16 @@ export class ToDoItem extends LitElement {
   }
 
   handleEdit() {
-    this.isEditing = true;
+    const newEvent = new CustomEvent('on-edit-mode', {
+      detail: { ...this._toDoItem, id: this.id, isEditing: true },
+      bubbles: true,
+      composed: true,
+    });
+
+    this.dispatchEvent(newEvent);
   }
 
   handleFormSubmit(event: CustomEvent) {
-    this.isEditing = false;
-
     const newEvent = new CustomEvent('on-change', {
       detail: { ...this._toDoItem, value: event.detail.value },
       bubbles: true,
@@ -121,7 +125,13 @@ export class ToDoItem extends LitElement {
   }
 
   handleFormCancel() {
-    this.isEditing = false;
+    const newEvent = new CustomEvent('on-edit-mode', {
+      detail: { ...this._toDoItem, id: this.id, isEditing: false },
+      bubbles: true,
+      composed: true,
+    });
+
+    this.dispatchEvent(newEvent);
   }
 
   handleMouseEnter() {

@@ -145,6 +145,14 @@ export class ToDoList extends LitElement {
     this.editingItemId = null;
   }
 
+  handleItemEditing(event: CustomEvent) {
+    if (event.detail.isEditing) {
+      this.editingItemId = event.detail.id;
+    } else {
+      this.editingItemId = null;
+    }
+  }
+
   handleTouchStart = (event: Event) => {
     const target = event.target as HTMLElement;
 
@@ -155,8 +163,6 @@ export class ToDoList extends LitElement {
         }
       } else if (this.touchedItemId !== null) {
         this.touchedItemId = null;
-
-        this.requestUpdate();
       }
     }
   };
@@ -177,8 +183,10 @@ export class ToDoList extends LitElement {
               .value=${item.value}
               ?completed=${item.completed}
               ?isTouched=${item.id === this.touchedItemId}
+              ?isEditing=${item.id === this.editingItemId}
               @on-complete=${this.handleItemComplete}
               @on-change=${this.handleItemChange}
+              @on-edit-mode=${this.handleItemEditing}
               @on-delete=${this.handleItemDelete}
             ></to-do-item>
           `
