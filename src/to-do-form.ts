@@ -157,6 +157,12 @@ export class ToDoForm extends LitElement {
     this.dispatchEvent(newEvent);
   }
 
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.code === 'Escape') {
+      this.handleCancel();
+    }
+  }
+
   renderButtons() {
     if (this.editMode) {
       return html`
@@ -187,14 +193,18 @@ export class ToDoForm extends LitElement {
 
   render() {
     return html`
-      <form class="form" @submit=${this.handleSubmit}>
+      <form
+        class="form"
+        @submit=${this.handleSubmit}
+        @keydown=${this.handleKeyDown}
+      >
         <input
           id="input"
           class="input"
           type="text"
-          .value=${this.value}
           placeholder="Enter something to do"
           aria-label=${this.editMode ? 'Edit to do' : 'Add new to do'}
+          .value=${this.value}
         />
         ${this.renderButtons()}
       </form>
