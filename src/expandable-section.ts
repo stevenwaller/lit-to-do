@@ -69,6 +69,25 @@ export class ExpandableSection extends LitElement {
 
   @state() isExpanded = true;
 
+  connectedCallback() {
+    const storedIsExpanded = localStorage.getItem('completed-is-expanded');
+
+    if (storedIsExpanded) {
+      this.isExpanded = JSON.parse(storedIsExpanded);
+    }
+
+    super.connectedCallback();
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.get('isExpanded') !== undefined) {
+      localStorage.setItem(
+        'completed-is-expanded',
+        JSON.stringify(this.isExpanded)
+      );
+    }
+  }
+
   handleButtonClick() {
     this.isExpanded = !this.isExpanded;
   }
