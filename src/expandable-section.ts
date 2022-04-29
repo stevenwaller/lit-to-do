@@ -13,44 +13,8 @@ export class ExpandableSection extends LitElement {
     }
 
     .container {
-      /* border-top: 1px solid black; */
       padding: 15px 0 0 0;
     }
-
-    /* .trigger {
-      position: relative;
-      -webkit-appearance: none;
-      appearance: none;
-      border: 2px solid black;
-      border-radius: 4px;
-      background: white;
-      padding: 5px 8px 5px 25px;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
-      color: black;
-      line-height: 1;
-      transition: background-color 0.2s ease, border-color 0.2s ease,
-        color 0.2s ease;
-    }
-
-    .trigger svg {
-      position: absolute;
-      top: 5px;
-      left: 10px;
-      fill: black;
-      transition: fill 0.2s ease, transform 0.2s ease;
-    }
-
-    .trigger:hover {
-      border-color: #00c1fc;
-      background-color: #f9f9f9;
-      color: #00c1fc;
-    }
-
-    .trigger:hover svg {
-      fill: #00c1fc;
-    } */
 
     .trigger {
       position: relative;
@@ -63,7 +27,6 @@ export class ExpandableSection extends LitElement {
       padding: 0 0 0 15px;
       font-size: 15px;
       font-weight: bold;
-      /* text-transform: uppercase; */
       cursor: pointer;
       color: black;
       line-height: 1;
@@ -79,11 +42,14 @@ export class ExpandableSection extends LitElement {
       transition: fill 0.2s ease, transform 0.2s ease;
     }
 
-    .trigger:hover {
+    .trigger:hover,
+    .trigger:focus {
+      outline: none;
       color: #00c1fc;
     }
 
-    .trigger:hover svg {
+    .trigger:hover svg,
+    .trigger:focus svg {
       fill: #00c1fc;
     }
 
@@ -114,7 +80,7 @@ export class ExpandableSection extends LitElement {
           ${chevronIcon} Completed
         </button>
         <div class="content">
-          <slot class="slot"></slot>
+          <slot></slot>
         </div>
       </div>
     `;
