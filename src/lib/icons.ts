@@ -55,6 +55,11 @@ const icons = {
       />
     </svg>
   `,
+  chevron: html`
+    <svg width="8" height="12" viewBox="0 0 8 12">
+      <path d="M2 0 .59 1.41 5.17 6 .59 10.59 2 12l6-6z" fill-rule="nonzero" />
+    </svg>
+  `,
 };
 
 export default icons;

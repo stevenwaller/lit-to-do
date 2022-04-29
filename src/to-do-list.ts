@@ -1,8 +1,11 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
+import { classMap } from 'lit/directives/class-map.js';
+
 import './to-do-form';
 import './to-do-item';
+import './expandable-section';
 
 const uniqueId = () => Math.floor(Math.random() * Date.now()).toString();
 
@@ -18,7 +21,7 @@ export class ToDoList extends LitElement {
     .container {
       background-color: #fff;
       border-radius: 20px;
-      padding: 20px 20px;
+      padding: 20px 20px 25px;
       box-shadow: 0px 5px 48px 0px rgba(0, 0, 0, 0.35);
     }
 
@@ -35,6 +38,14 @@ export class ToDoList extends LitElement {
       padding: 0;
       list-style: none;
       border-top: 1px solid #e5e5e5;
+    }
+
+    .expandable-section {
+      display: none;
+    }
+
+    .expandable-section.has-children {
+      display: block;
     }
   `;
 
@@ -201,8 +212,13 @@ export class ToDoList extends LitElement {
         <h1 class="title">${this.title}</h1>
         <to-do-form class="form" @on-submit=${this.handleAddItem}></to-do-form>
         ${this.renderItems(this.items)}
-        ${this.completedItems.length > 0 ? html`<hr />` : null}
-        ${this.renderItems(this.completedItems)}
+        <expandable-section
+          class="expandable-section ${classMap({
+            'has-children': this.completedItems.length > 0,
+          })}"
+        >
+          ${this.renderItems(this.completedItems)}
+        </expandable-section>
       </section>
     `;
   }

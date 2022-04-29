@@ -56,7 +56,7 @@ export class ToDoCheckbox extends LitElement {
       position: absolute;
       content: '';
       z-index: 1;
-      background-color: #f1f1f1;
+      background-color: #f9f9f9;
       top: 0;
       left: 0;
       width: 100%;
@@ -129,6 +129,22 @@ export class ToDoCheckbox extends LitElement {
     }
   }
 
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.code === 'Enter') {
+      const target = event.target as HTMLInputElement;
+
+      if (target) {
+        const newEvent = new CustomEvent('change', {
+          detail: { checked: !target.checked },
+          bubbles: true,
+          composed: true,
+        });
+
+        this.dispatchEvent(newEvent);
+      }
+    }
+  }
+
   render() {
     return html`
       <span class="checkbox-wrapper">
@@ -138,6 +154,7 @@ export class ToDoCheckbox extends LitElement {
           type="checkbox"
           .checked=${this.checked}
           @change=${this.handleChange}
+          @keydown=${this.handleKeyDown}
         />
         <span class="faux-checkbox"> ${icons.checkMark} </span>
       </span>

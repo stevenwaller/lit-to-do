@@ -97,7 +97,7 @@ export class ToDoForm extends LitElement {
 
     .button--secondary:hover,
     .button--secondary:focus {
-      background-color: #f1f1f1;
+      background-color: #f9f9f9;
       color: black;
     }
 
