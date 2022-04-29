@@ -49,22 +49,7 @@ export class ToDoCheckbox extends LitElement {
       border: 2px solid black;
       border-radius: 50%;
       background-color: white;
-      transition: border 0.2s ease;
-    }
-
-    .faux-checkbox::after {
-      position: absolute;
-      content: '';
-      z-index: 1;
-      background-color: #f9f9f9;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      transform: scale(0);
-      opacity: 0;
-      transition: transform 0.2s ease, opacity 0.2s ease;
+      transition: border 0.2s ease, background-color 0.2s ease;
     }
 
     .faux-checkbox svg {
@@ -75,18 +60,10 @@ export class ToDoCheckbox extends LitElement {
       transition: fill 0.2s ease;
     }
 
-    .input:hover + .faux-checkbox {
-      border-color: #00c1fc;
-    }
-
+    .input:hover + .faux-checkbox,
     .input:focus + .faux-checkbox {
       border-color: #00c1fc;
-    }
-
-    .input:hover + .faux-checkbox::after,
-    .input:focus + .faux-checkbox::after {
-      transform: scale(1);
-      opacity: 1;
+      background-color: #f9f9f9;
     }
 
     .input:hover + .faux-checkbox svg,
@@ -94,8 +71,18 @@ export class ToDoCheckbox extends LitElement {
       fill: #00c1fc;
     }
 
+    .input:checked + .faux-checkbox {
+      background-color: black;
+    }
+
     .input:checked + .faux-checkbox svg {
       opacity: 1;
+      fill: white;
+    }
+
+    .input:checked:hover + .faux-checkbox,
+    .input:checked:focus + .faux-checkbox {
+      background-color: #00c1fc;
     }
 
     .label {
@@ -152,6 +139,7 @@ export class ToDoCheckbox extends LitElement {
           id="${this.id}"
           class="input"
           type="checkbox"
+          title="Complete to do"
           .checked=${this.checked}
           @change=${this.handleChange}
           @keydown=${this.handleKeyDown}
