@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import icons from './lib/icons';
+import { chevronIcon } from './lib/icons';
 
 @customElement('expandable-section')
 export class ExpandableSection extends LitElement {
@@ -111,7 +111,7 @@ export class ExpandableSection extends LitElement {
     return html`
       <div class="container ${classMap({ 'is-expanded': this.isExpanded })}">
         <button class="trigger" @click=${this.handleButtonClick}>
-          ${icons.chevron} Completed
+          ${chevronIcon} Completed
         </button>
         <div class="content">
           <slot class="slot"></slot>

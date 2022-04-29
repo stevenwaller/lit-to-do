@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
-import icons from './lib/icons';
+import { pencilIcon, trashIcon } from './lib/icons';
 
 @customElement('action-button')
 export class ToDoCheckbox extends LitElement {
@@ -73,9 +73,9 @@ export class ToDoCheckbox extends LitElement {
   renderIcon() {
     switch (this['action-type']) {
       case 'edit':
-        return icons.edit;
+        return pencilIcon;
       case 'delete':
-        return icons.trash;
+        return trashIcon;
       default:
         return null;
     }

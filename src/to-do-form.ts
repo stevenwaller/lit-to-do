@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, query, property } from 'lit/decorators.js';
 
-import icons from './lib/icons';
+import { xIcon, checkMarkIcon } from './lib/icons';
 
 @customElement('to-do-form')
 export class ToDoForm extends LitElement {
@@ -173,7 +173,7 @@ export class ToDoForm extends LitElement {
           title="Cancel"
           @click=${this.handleCancel}
         >
-          ${icons.closeThin}
+          ${xIcon}
         </button>
         <button
           class="button button--icon"
@@ -181,7 +181,7 @@ export class ToDoForm extends LitElement {
           aria-label="Save"
           title="Save"
         >
-          ${icons.checkThin}
+          ${checkMarkIcon}
         </button>
       `;
     }

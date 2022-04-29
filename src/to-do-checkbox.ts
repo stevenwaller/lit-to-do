@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import icons from './lib/icons';
+import { smallCheckMarkIcon } from './lib/icons';
 
 @customElement('to-do-checkbox')
 export class ToDoCheckbox extends LitElement {
@@ -156,7 +156,7 @@ export class ToDoCheckbox extends LitElement {
           @change=${this.handleChange}
           @keydown=${this.handleKeyDown}
         />
-        <span class="faux-checkbox"> ${icons.checkMark} </span>
+        <span class="faux-checkbox"> ${smallCheckMarkIcon} </span>
       </span>
       <label
         for="${this.id}"
